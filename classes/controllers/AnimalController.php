@@ -2,19 +2,20 @@
 
 class AnimalController
 {
+    private $pdo;
+
+    // When creating AnimalController, get the PDO connection from Database singleton
+    public function __construct()
+    {
+        $this->pdo = Database::getInstance()->getConnection();
+    }
+
     public function List()
     {
-        $hostname = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "veterinary_record";
         $animals = [];
 
         try {
-            $pdo = new PDO("mysql:host=$hostname;dbname=$dbname", $username, $password);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Set error mode to exceptions
-
-            $stmt = $pdo->prepare("
+            $stmt = $this->pdo->prepare("
                 SELECT 
                     a.id_animal, 
                     a.name_animal,
@@ -25,20 +26,13 @@ class AnimalController
             ");
             $stmt->execute();
 
-            // Fetch the results and loop through them to create Animal instances
+            // Fetch each row as associative array and loop through them
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $specieCode = $row['id_species'];
-                $specieName = $row['name_species'];
+                $species = new Species($row['id_species'], $row['name_species']); // Create a Species instance
+                $animal = new Animal($row['id_animal'], $row['name_animal'], $species); // Create an Animal instance
 
-                $species = new Species($specieCode, $specieName); // Create a Species instance
-
-                $animalCode = $row['id_animal'];
-                $animalName = $row['name_animal'];
-
-                $animal = new Animal($animalCode, $animalName, $species); // Create an Animal instance
-                array_push($animals, $animal); // Add the Animal instance to the list
+                array_push($animals, $animal); // Add the Animal instance to the $animals list
             }
-            $pdo = null; // Close the database connection
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
@@ -48,17 +42,11 @@ class AnimalController
 
     public function SearchByName($name)
     {
-        $hostname = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "veterinary_record";
         $animals = [];
 
         try {
-            $pdo = new PDO("mysql:host=$hostname;dbname=$dbname", $username, $password);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Set error mode to exceptions
-
-            $stmt = $pdo->prepare("
+            // Prepare the SQL with LIKE clause to search by name
+            $stmt = $this->pdo->prepare("
                 SELECT 
                     a.id_animal, 
                     a.name_animal,
@@ -68,23 +56,17 @@ class AnimalController
                 JOIN species s ON a.id_species = s.id_species
                 WHERE a.name_animal LIKE :name
             ");
-            $stmt->bindParam(':name', $name);
+            $likeName = '%' . $name . '%'; // Add wildcard characters to the name
+            $stmt->bindParam(':name', $likeName); // Bind the parameter to prevent SQL injection
             $stmt->execute();
 
-            // Fetch the results and loop through them to create Animal instances
+            // Fetch each matching animal and create objects
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $specieCode = $row['id_species'];
-                $specieName = $row['name_species'];
+                $species = new Species($row['id_species'], $row['name_species']); // Create a Species instance
+                $animal = new Animal($row['id_animal'], $row['name_animal'], $species); // Create an Animal instance
 
-                $species = new Species($specieCode, $specieName); // Create a Species instance
-
-                $animalCode = $row['id_animal'];
-                $animalName = $row['name_animal'];
-
-                $animal = new Animal($animalCode, $animalName, $species); // Create an Animal instance
                 array_push($animals, $animal); // Add the Animal instance to the list
             }
-            $pdo = null; // Close the database connection
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
