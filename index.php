@@ -18,15 +18,10 @@ require_once 'config.php';
     </section>
 
     <section id="records">
-        <div class="animalCard">
-            <a href="treatment.php">
-                <img src="images/rico.png">
-                <div>
-                    <h1>Animal 1</h1>
-                    <p>Species 1</p>
-                </div>
-            </a>
-        </div>
+        <?php
+        $animalView = new AnimalView();
+        $animalView->RenderAnimals();
+        ?>
     </section>
 </body>
 

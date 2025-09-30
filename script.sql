@@ -40,15 +40,21 @@ CREATE TABLE veterinary_record (
 
 -- Insert example data into the species table
 INSERT INTO species (id_species, name_species) VALUES 
-(1, 'Dog'),
-(2, 'Cat'),
-(3, 'Bird');
+(1, 'Bulldog'),
+(2, 'Dalmatian'),
+(3, 'Mackerel Tabby'),
+(4, 'Beagle'),
+(5, 'Californian'),
+(6, 'Terrier');
 
 -- Insert example data into the animal table
 INSERT INTO animal (id_animal, name_animal, id_species) VALUES 
-(1, 'Rex', 1),
-(2, 'Fluffy', 2),
-(3, 'Tweety', 3);
+(1, 'Brutus', 1),
+(2, 'Flocos', 2),
+(3, 'Luna', 3),
+(4, 'Meg', 4),
+(5, 'Rico', 5),
+(6, 'Tico', 6);
 
 -- Insert example data into the treatment table
 INSERT INTO treatment (id_treatment, name_treatment, description_treatment) VALUES 
