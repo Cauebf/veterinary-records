@@ -13,6 +13,14 @@ body {
   padding: 20px;
 }
 
+.main-title {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 30px;
+  color: #2a9d8f;
+}
+
 #search {
   display: flex;
   justify-content: center;
