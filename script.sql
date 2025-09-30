@@ -1,63 +1,63 @@
--- Drop the database if it exists and create a new database
+-- Drop the database if it exists and create a new one
 DROP DATABASE IF EXISTS veterinary_record;
 CREATE DATABASE veterinary_record;
 USE veterinary_record;
 
 -- Create the species table
 CREATE TABLE species (
-    cd_species INT, 
-    nm_species VARCHAR(50),
-    CONSTRAINT pk_species PRIMARY KEY (cd_species)
+    id_species INT,
+    name_species VARCHAR(50),
+    CONSTRAINT pk_species PRIMARY KEY (id_species)
 );
 
 -- Create the animal table
 CREATE TABLE animal (
-    cd_animal INT,
-    nm_animal VARCHAR(100),
-    cd_species INT,
-    CONSTRAINT pk_animal PRIMARY KEY (cd_animal),
-    CONSTRAINT fk_animal_species FOREIGN KEY (cd_species) REFERENCES species (cd_species)
+    id_animal INT,
+    name_animal VARCHAR(100),
+    id_species INT,
+    CONSTRAINT pk_animal PRIMARY KEY (id_animal),
+    CONSTRAINT fk_animal_species FOREIGN KEY (id_species) REFERENCES species (id_species)
 );
 
 -- Create the treatment table
 CREATE TABLE treatment (
-    cd_treatment INT,
-    nm_treatment VARCHAR(100),
-    ds_treatment TEXT,
-    CONSTRAINT pk_treatment PRIMARY KEY (cd_treatment)
+    id_treatment INT,
+    name_treatment VARCHAR(100),
+    description_treatment TEXT,
+    CONSTRAINT pk_treatment PRIMARY KEY (id_treatment)
 );
 
 -- Create the veterinary record table
 CREATE TABLE veterinary_record (
-    cd_animal INT,
-    cd_treatment INT,
-    dt_treatment DATETIME,
-    ds_observation TEXT,
-    CONSTRAINT pk_veterinary_record PRIMARY KEY (cd_animal, cd_treatment, dt_treatment),
-    CONSTRAINT fk_veterinary_record_animal FOREIGN KEY (cd_animal) REFERENCES animal (cd_animal),
-    CONSTRAINT fk_veterinary_record_treatment FOREIGN KEY (cd_treatment) REFERENCES treatment (cd_treatment)
+    id_animal INT,
+    id_treatment INT,
+    treatment_date DATETIME,
+    observation TEXT,
+    CONSTRAINT pk_veterinary_record PRIMARY KEY (id_animal, id_treatment, treatment_date),
+    CONSTRAINT fk_vetrec_animal FOREIGN KEY (id_animal) REFERENCES animal (id_animal),
+    CONSTRAINT fk_vetrec_treatment FOREIGN KEY (id_treatment) REFERENCES treatment (id_treatment)
 );
 
 -- Insert example data into the species table
-INSERT INTO species (cd_species, nm_species) VALUES 
+INSERT INTO species (id_species, name_species) VALUES 
 (1, 'Dog'),
 (2, 'Cat'),
 (3, 'Bird');
 
 -- Insert example data into the animal table
-INSERT INTO animal (cd_animal, nm_animal, cd_species) VALUES 
+INSERT INTO animal (id_animal, name_animal, id_species) VALUES 
 (1, 'Rex', 1),
 (2, 'Fluffy', 2),
 (3, 'Tweety', 3);
 
 -- Insert example data into the treatment table
-INSERT INTO treatment (cd_treatment, nm_treatment, ds_treatment) VALUES 
+INSERT INTO treatment (id_treatment, name_treatment, description_treatment) VALUES 
 (1, 'Vaccination', 'Annual vaccination against common diseases'),
 (2, 'Surgery', 'Surgical procedure for injury treatment'),
 (3, 'Checkup', 'Routine health checkup');
 
 -- Insert example data into the veterinary_record table
-INSERT INTO veterinary_record (cd_animal, cd_treatment, dt_treatment, ds_observation) VALUES 
+INSERT INTO veterinary_record (id_animal, id_treatment, treatment_date, observation) VALUES 
 (1, 1, '2025-09-01 10:00:00', 'Vaccination went smoothly, no complications'),
 (2, 2, '2025-09-05 15:00:00', 'Surgery successful, recovery to follow'),
 (3, 3, '2025-09-10 09:00:00', 'Routine checkup, all vital signs normal');
