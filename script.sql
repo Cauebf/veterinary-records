@@ -31,9 +31,9 @@ CREATE TABLE treatment (
 CREATE TABLE service_record (
     id_animal INT,
     id_treatment INT,
-    treatment_date DATETIME,
+    service_date DATETIME,
     observation TEXT,
-    CONSTRAINT pk_service_record PRIMARY KEY (id_animal, id_treatment, treatment_date),
+    CONSTRAINT pk_service_record PRIMARY KEY (id_animal, id_treatment, service_date),
     CONSTRAINT fk_servrec_animal FOREIGN KEY (id_animal) REFERENCES animal (id_animal),
     CONSTRAINT fk_servrec_treatment FOREIGN KEY (id_treatment) REFERENCES treatment (id_treatment)
 );
