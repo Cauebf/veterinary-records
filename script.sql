@@ -63,7 +63,7 @@ INSERT INTO treatment (id_treatment, name_treatment, description_treatment) VALU
 (3, 'Checkup', 'Routine health checkup');
 
 -- Insert example data into the service_record table
-INSERT INTO service_record (id_animal, id_treatment, treatment_date, observation) VALUES 
+INSERT INTO service_record (id_animal, id_treatment, service_date, observation) VALUES 
 (1, 1, '2025-09-01 10:00:00', 'Vaccination went smoothly, no complications'),
 (2, 2, '2025-09-05 15:00:00', 'Surgery successful, recovery to follow'),
 (3, 3, '2025-09-10 09:00:00', 'Routine checkup, all vital signs normal');

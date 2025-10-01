@@ -11,6 +11,7 @@ class Animal
         // If id and name are provided, set them, otherwise set them to null
         $this->id = $id;
         $this->name = $name;
+        
         // If species is provided, set it, otherwise set an empty Species instance
         if ($species !== null) {
             $this->species = $species;
