@@ -1,0 +1,235 @@
+/* General layout */
+body {
+  background-color: #f9fafb;
+  color: #333;
+  padding: 40px 20px;
+  font-family: "Inter", sans-serif;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+}
+
+/* Title Area */
+#title-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e2e8f0;
+  width: 100%;
+}
+
+#title-area h1 {
+  font-weight: 700;
+  font-size: 2.5rem;
+  color: #2a9d8f;
+}
+
+#title-area .button {
+  background-color: #2a9d8f;
+  color: white;
+  padding: 10px 25px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+#title-area .button:hover {
+  background-color: #21867a;
+}
+
+/* Treatment Area */
+#treatment-area h1 {
+  font-weight: 700;
+  color: #2a9d8f;
+  margin-bottom: 25px;
+  font-size: 2rem;
+  border-bottom: 2px solid #2a9d8f;
+  padding-bottom: 8px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-item,
+.form-block-item {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #555;
+  font-size: 1rem;
+}
+
+input[type="text"],
+input[type="date"],
+select,
+textarea {
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1.5px solid #cbd5e1;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  resize: vertical;
+  font-family: "Inter", sans-serif;
+  background-color: #fafafa;
+}
+
+input[type="text"]:disabled,
+textarea:disabled {
+  background-color: #e2e8f0;
+  color: #64748b;
+  cursor: not-allowed;
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+select:focus,
+textarea:focus {
+  border-color: #2a9d8f;
+  outline: none;
+  background-color: white;
+  box-shadow: 0 0 8px rgba(42, 157, 143, 0.3);
+}
+
+select {
+  cursor: pointer;
+  background-color: white;
+}
+
+button.button {
+  width: 150px;
+  background-color: #2a9d8f;
+  border: none;
+  color: white;
+  padding: 14px 0;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background-color 0.3s ease;
+}
+
+button.button:hover {
+  background-color: #21867a;
+}
+
+/* Treatment & History Areas */
+#treatment-area,
+#history-area {
+  max-width: 700px; /* same max width */
+  width: 100%; /* fill width up to max */
+  margin: 0 auto 60px; /* center horizontally, bottom margin */
+  background: white;
+  border-radius: 15px;
+  padding: 30px 40px;
+  box-shadow: 0 10px 25px rgba(42, 157, 143, 0.1);
+}
+
+/* History Area */
+#history-area h1 {
+  font-weight: 700;
+  color: #2a9d8f;
+  margin-bottom: 25px;
+  font-size: 2rem;
+  border-bottom: 2px solid #2a9d8f;
+  padding-bottom: 8px;
+}
+
+/* Table Wrapper for horizontal scrolling on small screens */
+#history-area .table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+}
+
+#history-area .table-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+
+#history-area .table-wrapper::-webkit-scrollbar-thumb {
+  background-color: rgba(42, 157, 143, 0.3);
+  border-radius: 3px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+  color: #444;
+  min-width: 600px; /* ensures scroll appears if container narrower */
+}
+
+thead {
+  background-color: #2a9d8f;
+  color: white;
+  text-align: left;
+}
+
+thead th {
+  padding: 14px 15px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+tbody tr {
+  border-bottom: 1px solid #e2e8f0;
+  transition: background-color 0.3s ease;
+  cursor: default;
+}
+
+tbody tr:hover {
+  background-color: #f0f9f8;
+}
+
+tbody td {
+  padding: 14px 15px;
+  vertical-align: top;
+}
+
+.date {
+  font-weight: 600;
+  color: #2a9d8f;
+  white-space: nowrap;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  #treatment-area,
+  #history-area {
+    padding: 20px;
+    margin-bottom: 40px;
+  }
+
+  #title-area {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  button.button {
+    width: 100%;
+  }
+
+  /* Enable horizontal scroll on smaller devices */
+  #history-area .table-wrapper {
+    overflow-x: auto;
+  }
+
+  /* Optional: Reduce min-width of table on smaller devices for better fit */
+  table {
+    min-width: 500px;
+  }
+}

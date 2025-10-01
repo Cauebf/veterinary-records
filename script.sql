@@ -27,15 +27,15 @@ CREATE TABLE treatment (
     CONSTRAINT pk_treatment PRIMARY KEY (id_treatment)
 );
 
--- Create the veterinary record table
-CREATE TABLE veterinary_record (
+-- Create the service record table
+CREATE TABLE service_record (
     id_animal INT,
     id_treatment INT,
     treatment_date DATETIME,
     observation TEXT,
-    CONSTRAINT pk_veterinary_record PRIMARY KEY (id_animal, id_treatment, treatment_date),
-    CONSTRAINT fk_vetrec_animal FOREIGN KEY (id_animal) REFERENCES animal (id_animal),
-    CONSTRAINT fk_vetrec_treatment FOREIGN KEY (id_treatment) REFERENCES treatment (id_treatment)
+    CONSTRAINT pk_service_record PRIMARY KEY (id_animal, id_treatment, treatment_date),
+    CONSTRAINT fk_servrec_animal FOREIGN KEY (id_animal) REFERENCES animal (id_animal),
+    CONSTRAINT fk_servrec_treatment FOREIGN KEY (id_treatment) REFERENCES treatment (id_treatment)
 );
 
 -- Insert example data into the species table
@@ -62,8 +62,8 @@ INSERT INTO treatment (id_treatment, name_treatment, description_treatment) VALU
 (2, 'Surgery', 'Surgical procedure for injury treatment'),
 (3, 'Checkup', 'Routine health checkup');
 
--- Insert example data into the veterinary_record table
-INSERT INTO veterinary_record (id_animal, id_treatment, treatment_date, observation) VALUES 
+-- Insert example data into the service_record table
+INSERT INTO service_record (id_animal, id_treatment, treatment_date, observation) VALUES 
 (1, 1, '2025-09-01 10:00:00', 'Vaccination went smoothly, no complications'),
 (2, 2, '2025-09-05 15:00:00', 'Surgery successful, recovery to follow'),
 (3, 3, '2025-09-10 09:00:00', 'Routine checkup, all vital signs normal');

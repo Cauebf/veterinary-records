@@ -25,7 +25,9 @@ if (isset($_GET['searchValue'])) {
 </head>
 
 <body>
-    <h1 class="main-title">Veterinary Records System</h1>
+    <h1 class="main-title">
+        <a href="index.php?searchValue=">Veterinary Records System</a>
+    </h1>
 
     <form id="search" action="index.php" method="get">
         <input type="text" name="searchValue" placeholder="Insert animal name">

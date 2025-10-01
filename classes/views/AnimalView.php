@@ -15,7 +15,7 @@ class AnimalView
 
         // Display the animal card with the image, name, and species
         echo "<div class='animalCard'>
-                    <a href='treatment.php'>
+                    <a href='service.php'>
                         <img src='{$imagePath}' alt='{$animalName}'>
                         <div>
                             <h1>{$animalName}</h1>
