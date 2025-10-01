@@ -2,15 +2,15 @@
 
 class Treatment
 {
-    public $Code;
-    public $Name;
-    public $Description;
+    public $id;
+    public $name;
+    public $description;
 
-    public function __construct($code = null, $name = null, $description = null)
+    public function __construct($id = null, $name = null, $description = null)
     {
-        // If code, name and description are provided, set them, otherwise set them to null
-        $this->Code = $code;
-        $this->Name = $name;
-        $this->Description = $description;
+        // If id, name and description are provided, set them, otherwise set them to null
+        $this->id = $id;
+        $this->name = $name;
+        $this->description = $description;
     }
 }

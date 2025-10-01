@@ -42,9 +42,9 @@ if (isset($_GET['searchValue'])) {
 
             // If the searchValue parameter is empty, render all the animals otherwise render the animals by name
             if (empty($value)) {
-                $animalView->RenderAnimals();
+                $animalView->renderAnimals();
             } else {
-                $animalView->RenderAnimalsByName($value);
+                $animalView->renderAnimalsByName($value);
             }
         }
         ?>

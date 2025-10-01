@@ -10,7 +10,7 @@ class AnimalController
         $this->pdo = Database::getInstance()->getConnection();
     }
 
-    public function List()
+    public function list()
     {
         $animals = [];
 
@@ -40,7 +40,7 @@ class AnimalController
         return $animals;
     }
 
-    public function SearchByName($name)
+    public function search($name)
     {
         $animals = [];
 

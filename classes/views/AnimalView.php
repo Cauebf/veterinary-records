@@ -2,10 +2,11 @@
 
 class AnimalView
 {
-    public function RenderAnimalCard($animal)
+    public function renderAnimalCard($animal)
     {
-        $animalName = $animal->Name;
-        $speciesName = $animal->Species->Name;
+        $animalId = $animal->id;
+        $animalName = $animal->name;
+        $speciesName = $animal->species->name;
         $imagePath = "images/{$animalName}.png";
 
         // Check if the image file exists and use a placeholder image if it doesn't
@@ -15,7 +16,7 @@ class AnimalView
 
         // Display the animal card with the image, name, and species
         echo "<div class='animalCard'>
-                    <a href='service.php'>
+                    <a href='service.php?id={$animalId}'>
                         <img src='{$imagePath}' alt='{$animalName}'>
                         <div>
                             <h1>{$animalName}</h1>
@@ -25,21 +26,21 @@ class AnimalView
                 </div>";
     }
 
-    public function RenderAnimals()
+    public function renderAnimals()
     {
         $AnimalController = new AnimalController();
-        $animals = $AnimalController->List(); // Get the list of animals from the controller
+        $animals = $AnimalController->list(); // Get the list of animals from the controller
 
         // Loop through the animals in the list and display them
         for ($i = 0; $i < count($animals); $i++) {
-            $this->RenderAnimalCard($animals[$i]);
+            $this->renderAnimalCard($animals[$i]);
         }
     }
 
-    public function RenderAnimalsByName($name)
+    public function renderAnimalsByName($name)
     {
         $AnimalController = new AnimalController();
-        $animals = $AnimalController->SearchByName($name); // Get the list of animals by name from the controller
+        $animals = $AnimalController->search($name); // Get the list of animals by name from the controller
 
         if (count($animals) == 0) {
             echo "<p class='no-animals'>No animals found.</p>";
@@ -48,7 +49,7 @@ class AnimalView
 
         // Loop through the animals in the list and display them
         for ($i = 0; $i < count($animals); $i++) {
-            $this->RenderAnimalCard($animals[$i]);
+            $this->renderAnimalCard($animals[$i]);
         }
     }
 }
