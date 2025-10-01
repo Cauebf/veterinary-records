@@ -1,81 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+require_once 'config.php';
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Veterinary Records</title>
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/serviceStyle.css" />
-</head>
+try {
+    // ServiceController expects $_GET['id'] to exist (per earlier constructor)
+    $serviceController = new ServiceController();
+} catch (Exception $e) {
+    // if id missing, stop and show a clear message
+    die("Animal id is required in query string. Example: service.php?id=1");
+}
 
-<body>
-    <section id="title-area">
-        <h1>Service</h1>
-        <a href="index.php?searchValue=" class="button">Back</a>
-    </section>
+$treatmentController = new TreatmentController();
+$view = new ServiceView();
 
-    <section id="treatment-area">
-        <h1>Service Record</h1>
-        <form>
-            <div class="form-item">
-                <label>Animal Name:</label>
-                <input type="text" disabled />
-            </div>
+$flash = null; // for success/error messages
 
-            <div class="form-item">
-                <label>Date:</label>
-                <input type="date" value="2024-08-04" />
-            </div>
+// Handle form POST (Save)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save'])) {
+    // Basic validation/sanitization
+    $treatmentId = isset($_POST['treatment_id']) ? (int)$_POST['treatment_id'] : null;
+    $serviceDate = isset($_POST['service_date']) ? trim($_POST['service_date']) : null;
+    $observation = isset($_POST['observation']) ? trim($_POST['observation']) : '';
 
-            <div class="form-item">
-                <label>Treatment:</label>
-                <select>
-                    <option selected disabled>Select Treatment</option>
-                </select>
-            </div>
+    if (!$treatmentId || !$serviceDate) {
+        $flash = [
+            'message' => 'Please choose a treatment and a date.',
+            'class' => 'flash error'
+        ];
+    } else {
+        // Ensure date storage format matches DB. If type=datetime-local produces "YYYY-MM-DDTHH:MM",
+        // convert to "YYYY-MM-DD HH:MM:SS"
+        if (strpos($serviceDate, 'T') !== false) {
+            // if user sent "2025-09-01T09:00" -> "2025-09-01 09:00:00"
+            $serviceDate = str_replace('T', ' ', $serviceDate) . ':00';
+        }
 
-            <div class="form-block-item">
-                <label>Treatment Description:</label>
-                <textarea rows="2" disabled>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facere ducimus saepe eum ea id, ex, deleniti non repellendus impedit provident laborum perferendis excepturi voluptate voluptatum magnam dolor rerum, laudantium velit?</textarea>
-            </div>
+        // Create service record and check success or failure for flash message display
+        $ok = $serviceController->createServiceRecord($treatmentId, $serviceDate, $observation);
+        if ($ok) {
+            $flash = [
+                'message' => 'Service record saved.',
+                'class' => 'flash'
+            ];
+        } else {
+            $flash = [
+                'message' => 'Failed to save service record.',
+                'class' => 'flash error'
+            ];
+        }
+    }
+}
 
-            <div class="form-block-item">
-                <label>Service Description:</label>
-                <textarea rows="6"></textarea>
-            </div>
+// Fetch data for rendering
+$animal = $serviceController->getAnimal();
+if (!$animal) {
+    die("Animal not found.");
+}
 
-            <button class="button">Save</button>
-        </form>
-    </section>
+$treatments = $treatmentController->list();
+$services = $serviceController->list();
 
-    <section id="history-area">
-        <h1>History</h1>
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Treatment</th>
-                        <th>Treatment Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="date">08/30/2024 at 11:35</td>
-                        <td>Deworming</td>
-                        <td>There was an allergic reaction and Apoquel 6g was administered</td>
-                    </tr>
-                    <tr>
-                        <td class="date">08/30/2024 at 11:30</td>
-                        <td>Rabies Vaccine</td>
-                        <td>Renew in 1 year</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
-
-</body>
-
-</html>
+$view->render($animal, $treatments, $services, $flash);

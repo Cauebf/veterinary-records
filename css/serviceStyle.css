@@ -36,11 +36,12 @@ body {
   border-radius: 8px;
   text-decoration: none;
   font-weight: 600;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.08s ease;
 }
 
 #title-area .button:hover {
   background-color: #21867a;
+  transform: translateY(-1px);
 }
 
 /* Treatment Area */
@@ -72,20 +73,25 @@ label {
   font-size: 1rem;
 }
 
+/* Inputs common */
 input[type="text"],
 input[type="date"],
+input[type="datetime-local"],
 select,
 textarea {
   padding: 12px 15px;
   border-radius: 8px;
   border: 1.5px solid #cbd5e1;
   font-size: 1rem;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease,
+    background-color 0.15s ease;
   resize: vertical;
   font-family: "Inter", sans-serif;
   background-color: #fafafa;
+  color: #1f2937;
 }
 
+/* Disabled */
 input[type="text"]:disabled,
 textarea:disabled {
   background-color: #e2e8f0;
@@ -93,21 +99,25 @@ textarea:disabled {
   cursor: not-allowed;
 }
 
+/* Focus states */
 input[type="text"]:focus,
 input[type="date"]:focus,
+input[type="datetime-local"]:focus,
 select:focus,
 textarea:focus {
   border-color: #2a9d8f;
   outline: none;
   background-color: white;
-  box-shadow: 0 0 8px rgba(42, 157, 143, 0.3);
+  box-shadow: 0 6px 18px rgba(42, 157, 143, 0.12);
 }
 
-select {
+/* Select */
+#treatment-select {
   cursor: pointer;
   background-color: white;
 }
 
+/* Buttons */
 button.button {
   width: 150px;
   background-color: #2a9d8f;
@@ -119,26 +129,27 @@ button.button {
   border-radius: 12px;
   cursor: pointer;
   align-self: flex-start;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.08s ease;
 }
 
 button.button:hover {
   background-color: #21867a;
+  transform: translateY(-1px);
 }
 
-/* Treatment & History Areas */
+/* Card containers */
 #treatment-area,
 #history-area {
-  max-width: 700px; /* same max width */
-  width: 100%; /* fill width up to max */
-  margin: 0 auto 60px; /* center horizontally, bottom margin */
+  max-width: 700px;
+  width: 100%;
+  margin: 0 auto 60px;
   background: white;
   border-radius: 15px;
   padding: 30px 40px;
   box-shadow: 0 10px 25px rgba(42, 157, 143, 0.1);
 }
 
-/* History Area */
+/* History Area header */
 #history-area h1 {
   font-weight: 700;
   color: #2a9d8f;
@@ -148,10 +159,10 @@ button.button:hover {
   padding-bottom: 8px;
 }
 
-/* Table Wrapper for horizontal scrolling on small screens */
+/* Table wrapper */
 #history-area .table-wrapper {
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+  -webkit-overflow-scrolling: touch;
 }
 
 #history-area .table-wrapper::-webkit-scrollbar {
@@ -168,7 +179,7 @@ table {
   border-collapse: collapse;
   font-size: 1rem;
   color: #444;
-  min-width: 600px; /* ensures scroll appears if container narrower */
+  min-width: 600px;
 }
 
 thead {
@@ -205,6 +216,91 @@ tbody td {
   white-space: nowrap;
 }
 
+/* On focus show subtle inner glow and stronger border */
+input[type="date"]:focus,
+input[type="datetime-local"]:focus {
+  box-shadow: 0 8px 30px rgba(42, 157, 143, 0.1);
+  border-color: #2a9d8f;
+}
+
+/* Make the input visually consistent on small devices */
+@media (max-width: 480px) {
+  input[type="date"],
+  input[type="datetime-local"] {
+    padding-right: 38px;
+    background-position: right 10px center;
+  }
+}
+
+.flash {
+  width: 100%;
+  max-width: 700px;
+  margin: 12px auto 0;
+  margin-bottom: 20px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: linear-gradient(
+    90deg,
+    rgba(230, 255, 250, 0.9),
+    rgba(240, 255, 244, 0.95)
+  );
+  color: #065f46;
+  border: 1px solid rgba(42, 157, 143, 0.12);
+  box-shadow: 0 10px 30px rgba(42, 157, 143, 0.06);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: flashIn 260ms ease;
+  position: relative;
+}
+
+/* Add subtle icon at the left with pseudo-element */
+.flash::before {
+  content: "✔";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  font-weight: 700;
+  font-size: 0.95rem;
+  flex: 0 0 34px;
+}
+
+/* Error variant you can toggle in HTML: <div class="flash error">... */
+.flash.error {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 240, 240, 0.95),
+    rgba(255, 243, 243, 0.95)
+  );
+  color: #7f1d1d;
+  border-color: rgba(220, 38, 38, 0.12);
+  box-shadow: 0 10px 30px rgba(220, 38, 38, 0.04);
+}
+
+.flash.error::before {
+  content: "!";
+  background: rgba(220, 38, 38, 0.08);
+  color: #dc2626;
+}
+
+/* Fade-in animation */
+@keyframes flashIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   #treatment-area,
@@ -223,12 +319,10 @@ tbody td {
     width: 100%;
   }
 
-  /* Enable horizontal scroll on smaller devices */
   #history-area .table-wrapper {
     overflow-x: auto;
   }
 
-  /* Optional: Reduce min-width of table on smaller devices for better fit */
   table {
     min-width: 500px;
   }
